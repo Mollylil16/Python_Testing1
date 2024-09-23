@@ -40,7 +40,10 @@ def book(competition,club):
         flash("Something went wrong-please try again")
         return render_template('welcome.html', club=club, competitions=competitions)
 
-
+@app.route('/public_club_points')
+def publicClubPoints():
+    return render_template('public_points.html', clubs=clubs)
+    
 @app.route('/purchasePlaces',methods=['POST'])
 def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
