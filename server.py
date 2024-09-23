@@ -17,6 +17,7 @@ def loadCompetitions():
 app = Flask(__name__)
 app.secret_key = 'something_special'
 
+
 competitions = loadCompetitions()
 clubs = loadClubs()
 
@@ -29,7 +30,10 @@ def showSummary():
     club = [club for club in clubs if club['email'] == request.form['email']][0]
     return render_template('welcome.html',club=club,competitions=competitions)
 
-
+@app.route('/public_club_points')
+def publicClubPoints():
+    return render_template('public_points.html', clubs=clubs)
+    
 @app.route('/book/<competition>/<club>')
 def book(competition,club):
     foundClub = [c for c in clubs if c['name'] == club][0]
