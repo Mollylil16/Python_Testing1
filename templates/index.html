@@ -22,7 +22,7 @@
     <p>Please enter your secretary email to continue:</p>
     <form action="showSummary" method="post">
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required />
+        <input type="email" name="email" id="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address." />
         <button type="submit">Enter</button>
     </form>
 
