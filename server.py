@@ -25,16 +25,16 @@ def index():
 @app.route('/showSummary', methods=['POST'])
 def showSummary():
     email = request.form['email']
-    # Check for valid email format
+    # Vérification du format de l'email
     if '@' not in email or '.' not in email.split('@')[-1]:
-        flash("Invalid email format, please try again.")
+        flash("Format d'email invalide, veuillez réessayer.")
         return redirect(url_for('index'))
 
     club = next((club for club in clubs if club['email'] == email), None)
     if club:
         return render_template('welcome.html', club=club, competitions=competitions)
     else:
-        flash("Email not found, please try again.")
+        flash("Email non trouvé, veuillez réessayer.")
         return redirect(url_for('index'))
 
 @app.route('/book/<competition>/<club>')
@@ -44,7 +44,7 @@ def book(competition, club):
     if foundClub and foundCompetition:
         return render_template('booking.html', club=foundClub, competition=foundCompetition)
     else:
-        flash("Something went wrong-please try again")
+        flash("Quelque chose s'est mal passé, veuillez réessayer.")
         return render_template('welcome.html', club=club, competitions=competitions)
 
 @app.route('/purchasePlaces', methods=['POST'])
@@ -67,7 +67,7 @@ def purchasePlaces():
             
             competition['numberOfPlaces'] = int(competition['numberOfPlaces']) - places_required
             club['points'] = int(club['points']) - places_required
-            flash("Great, booking complete!")
+            flash("Super, réservation terminée !")
     return render_template('welcome.html', club=club, competitions=competitions) 
 
 @app.route('/publicClubPoints')
@@ -78,10 +78,9 @@ def publicClubPoints():
 def logout():
     return redirect(url_for('index'))
 
-
 @app.context_processor
 def inject_future_competitions():
-    future_competitions = [comp for comp in competitions if datetime.strptime(comp['date'], "%Y-%m-%d") > datetime.now()]
+    future_competitions = [comp for comp in competitions if datetime.strptime(comp['date'], "%Y-%m-%d %H:%M:%S") > datetime.now()]
     return dict(future_competitions=future_competitions)
 
 if __name__ == "__main__":
