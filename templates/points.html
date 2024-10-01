@@ -1,13 +1,24 @@
-<h2>Club Points</h2>
-<table>
-    <tr>
-        <th>Club</th>
-        <th>Points</th>
-    </tr>
-    {% for club in clubs %}
-    <tr>
-        <td>{{club['name']}}</td>
-        <td>{{club['points']}}</td>
-    </tr>
-    {% endfor %}
-</table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Points</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Lien vers le fichier CSS -->
+</head>
+<body>
+    <h2>Club Points</h2>
+    <table>
+        <tr>
+            <th>Club</th>
+            <th>Points</th>
+        </tr>
+        {% for club in clubs %}
+        <tr>
+            <td>{{club['name']}}</td>
+            <td>{{club['points']}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

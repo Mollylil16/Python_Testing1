@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GUDLFT Registration</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Lien vers le fichier CSS -->
 </head>
 <body>
     <h1>Welcome to the GUDLFT Registration Portal!</h1>
-    
     
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -19,15 +19,13 @@
         {% endif %}
     {% endwith %}
 
-    
     <p>Please enter your secretary email to continue:</p>
     <form action="showSummary" method="post">
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required/>
+        <input type="email" name="email" id="email" required />
         <button type="submit">Enter</button>
     </form>
 
-    
     <p>
         Or, you can <a href="{{ url_for('publicClubPoints') }}">View Public Club Points</a> directly.
     </p>
