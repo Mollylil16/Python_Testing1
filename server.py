@@ -62,7 +62,11 @@ def purchasePlaces():
             competition['numberOfPlaces'] = int(competition['numberOfPlaces']) - places_required
             club['points'] = int(club['points']) - places_required
             flash("Great, booking complete!")
-    return render_template('welcome.html', club=club, competitions=competitions)
+    return render_template('welcome.html', club=club, competitions=competitions) 
+    
+@app.route('/publicClubPoints')
+def publicClubPoints():
+    return render_template('points.html', clubs=clubs)
 
 
 # TODO: Add route for points display
