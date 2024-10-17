@@ -1,5 +1,5 @@
 import unittest
-from app import app 
+from app.server import app 
 
 class TestIntegration(unittest.TestCase):
     def setUp(self):

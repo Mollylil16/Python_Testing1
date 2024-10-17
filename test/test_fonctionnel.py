@@ -1,5 +1,5 @@
 import pytest
-from app import app  # Assurez-vous que le chemin vers le module app est correct
+from app.server import app  
 
 @pytest.fixture
 def client():

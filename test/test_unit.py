@@ -1,5 +1,5 @@
 import unittest
-from app import loadClubs, loadCompetitions
+from app.server import loadClubs, loadCompetitions
 
 class TestApp(unittest.TestCase):
     def test_loadClubs(self):
