@@ -51,7 +51,7 @@ input[type="number"] {
 
 button {
     padding: 10px;
-    background-color: #007bff; /* Couleur bleue */
+    background-color: #ff0000; /* Couleur bleue */
     color: #fff; /* Couleur de texte blanche */
     border: none;
     border-radius: 4px;
