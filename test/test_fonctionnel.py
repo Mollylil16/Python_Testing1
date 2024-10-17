@@ -1,5 +1,5 @@
 import pytest
-from app import app
+from server import app
 
 @pytest.fixture
 def client():
@@ -14,9 +14,9 @@ def test_public_club_points(client):
 def test_purchase_places(client):
     response = client.post('/purchasePlaces', data= {'competitions': 'Spring Festival', 'club': 'Simply Lift', 'places': '5'})
     assert response.status_code == 200
-    assert b"Super, réservation terminée !" in response.data
+    assert "Super, réservation terminée !" in response.data.decode('utf-8')
 
 def test_purchase_too_many_places(client):
     response = client.post('/purchasePlaces',  data= {'competitions': 'Spring Festival', 'club': 'Simply Lift', 'places': '15'})
     assert response.status_code == 200
-    assert b"Vous ne pouvez pas réserver plus de 12 places!" in response.data
+    assert "Vous ne pouvez pas réserver plus de 12 places!" in response.data.decode('utf-8')
