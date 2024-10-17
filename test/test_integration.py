@@ -1,6 +1,6 @@
 import unittest
 from flask import Flask
-from server import app 
+from app import app 
 
 class TestIntegration(unittest.TestCase):
     def setUp(self):
