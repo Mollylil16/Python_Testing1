@@ -12,6 +12,9 @@ def test_book(client):
     assert b'Booking for Spring Festival' in response.data
 
 def test_purchase_places(client):
+    
+    client.post('/showSummary', data={'email': 'john@simplylift.co'})
+    
     response = client.post('/purchasePlaces', data={
         'competition': 'Spring Festival',
         'club': 'Simply Lift',
