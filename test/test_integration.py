@@ -1,24 +1,22 @@
-import unittest
-from app.server import app 
+import pytest
+from app.server import app
 
-class TestIntegration(unittest.TestCase):
-    def setUp(self):
-        self.app = app.test_client()
-        self.app.testing = True
+@pytest.fixture
+def client():
+    with app.test_client() as client:
+        yield client
 
-    def test_index(self):
-        response = self.app.get('/')
-        self.assertEqual(response.status_code, 200)
+def test_index(client):
+    response = client.get('/')
+    assert response.status_code == 200
+    assert b'Welcome' in response.data  # Vérifiez que la page d'accueil contient un élément spécifique
 
-    def test_showSummary(self):
-        response = self.app.post('/showSummary', data={'email': 'john@simplylift.co'})
-        self.assertIn(b'Welcome', response.data.decode('utf-8'))
-        self.assertEqual(response.status_code, 200)
+def test_show_summary(client):
+    response = client.post('/showSummary', data={'email': 'john@simplylift.co'})
+    assert response.status_code == 200
+    assert b'Welcome, Simply Lift!' in response.data
 
-    def test_showSummary_invalid_email(self):   
-        response = self.app.post('/showSummary', data={'email':'invalid_email'})
-        self.assertIn(b"Email non trouvé", response.data.decode('utf-8'))
-        self.assertEqual(response.status_code, 404)
-
-if __name__ == '__main__':
-    unittest.main()
+def test_show_summary_invalid_email(client):
+    response = client.post('/showSummary', data={'email': 'invalid_email'})
+    assert response.status_code == 302  # Redirection après une erreur
+    assert b'Format d\'email invalide' in response.data

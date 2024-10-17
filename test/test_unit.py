@@ -1,16 +1,19 @@
-import unittest
+import json
+import pytest
 from app.server import loadClubs, loadCompetitions
 
-class TestApp(unittest.TestCase):
-    def test_loadClubs(self):
-        clubs = loadClubs()
-        self.assertIsInstance(clubs, list)
-        self.assertGreater(len(clubs), 0)
-    
-    def test_loadCompetitions(self):
-        competitions = loadCompetitions()
-        self.assertIsInstance(competitions, list)
-        self.assertGreater(len(competitions), 0)
+def test_load_clubs():
+    clubs = loadClubs()
+    assert isinstance(clubs, list)
+    assert len(clubs) > 0
+    assert "name" in clubs[0]
+    assert "email" in clubs[0]
+    assert "points" in clubs[0]
 
-if __name__ == '__main__':
-    unittest.main()
+def test_load_competitions():
+    competitions = loadCompetitions()
+    assert isinstance(competitions, list)
+    assert len(competitions) > 0
+    assert "name" in competitions[0]
+    assert "date" in competitions[0]
+    assert "numberOfPlaces" in competitions[0]
