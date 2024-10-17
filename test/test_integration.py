@@ -12,12 +12,12 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_showSummary(self):
-        response = self.app.get('/showSummary' data={'email': 'john@simplylift.co'})
+        response = self.app.get('/showSummary', data={'email': 'john@simplylift.co'})
         self.assertIn(b'Welcome', response.data)
         self.assertEqual(response.status_code, 200)
 
     def test_showSummary_invalid_email(self):   
-        response = self.app.post('/showSummary' data={'email':'invalid_email'})
+        response = self.app.post('/showSummary', data={'email':'invalid_email'})
         self.assertIn(b"Emaiil non trouvé", response.data )
         self.assertEqual(response.status_code, 404)
 
