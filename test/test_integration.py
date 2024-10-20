@@ -20,4 +20,4 @@ def test_purchase_places(client):
         'places': 5
     })
     assert response.status_code == 200
-    assert "Super, réservation terminée !".encode('utf-8') in response.data
+    assert "Super, réservation terminer !".encode('utf-8') in response.data
