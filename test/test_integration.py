@@ -9,7 +9,7 @@ def client():
         yield client
 
 def test_show_summary(client):
-    response = client.post('/showSummary', data={'email': 'test@club.com'})
+    response = client.post('/showSummary', data={'email': 'john@simplylift.co'})
     assert response.status_code == 200
     assert b"Welcome" in response.data
 
