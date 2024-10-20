@@ -2,11 +2,7 @@ import pytest
 from server import app
 from .config import client
 
-@pytest.fixture
-def client():
-    app.testing = True
-    with app.test_client() as client:
-        yield client
+
 
 def test_show_summary(client):
     response = client.post('/showSummary', data={'email': 'john@simplylift.co'})

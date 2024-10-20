@@ -54,7 +54,6 @@ def purchasePlaces():
     places_required = int(request.form['places'])
 
     if club and competition:
-        
         if places_required < 0:
             flash("Le nombre de places ne peut pas être négatif.")
         elif places_required > 12:
@@ -64,11 +63,11 @@ def purchasePlaces():
         elif places_required > int(club['points']):
             flash("Vous n'avez pas assez de points.")
         else:
-            
             competition['numberOfPlaces'] = int(competition['numberOfPlaces']) - places_required
             club['points'] = int(club['points']) - places_required
             flash("Super, réservation terminée !")
-    return render_template('welcome.html', club=club, competitions=competitions) 
+    return render_template('welcome.html', club=club, competitions=competitions)
+ 
 
 @app.route('/publicClubPoints')
 def publicClubPoints():
