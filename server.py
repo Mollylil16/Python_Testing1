@@ -67,7 +67,7 @@ def purchasePlaces():
             
             competition['numberOfPlaces'] = int(competition['numberOfPlaces']) - places_required
             club['points'] = int(club['points']) - places_required
-            flash("Super, réservation terminer !")
+            flash("Super, réservation terminée !")
     return render_template('welcome.html', club=club, competitions=competitions) 
 
 @app.route('/publicClubPoints')
