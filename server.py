@@ -53,20 +53,33 @@ def purchasePlaces():
     club = next((c for c in clubs if c['name'] == request.form['club']), None)
     places_required = int(request.form['places'])
 
-    if club and competition:
-        if places_required < 0:
-            flash("Le nombre de places ne peut pas être négatif.")
-        elif places_required > 12:
-            flash("Vous ne pouvez pas réserver plus de 12 places !")
-        elif places_required > int(competition['numberOfPlaces']):
-            flash("Pas assez de places disponibles pour ce concours.")
-        elif places_required > int(club['points']):
-            flash("Vous n'avez pas assez de points.")
-        else:
-            competition['numberOfPlaces'] = int(competition['numberOfPlaces']) - places_required
-            club['points'] = int(club['points']) - places_required
-            flash("Super, réservation terminée !")
+    print(f"Réservation: compétition={competition}, club={club}, places={places_required}")
+
+    if club is None:
+        flash("Club non trouvé.")
+        return redirect(url_for('showSummary'))  # Ou retournez à l'endroit approprié
+    if competition is None:
+        flash("Compétition non trouvée.")
+        return redirect(url_for('showSummary'))
+
+    if places_required < 0:
+        flash("Le nombre de places ne peut pas être négatif.")
+    elif places_required > 12:
+        flash("Vous ne pouvez pas réserver plus de 12 places !")
+    elif places_required > int(competition['numberOfPlaces']):
+        flash("Pas assez de places disponibles pour ce concours.")
+    elif places_required > int(club['points']):
+        flash("Vous n'avez pas assez de points.")
+    else:
+        competition['numberOfPlaces'] = int(competition['numberOfPlaces']) - places_required
+        club['points'] = int(club['points']) - places_required
+        flash("Super, réservation terminée !")
+        print(f"Places restantes: {competition['numberOfPlaces']}, Points restants: {club['points']}")
+
     return render_template('welcome.html', club=club, competitions=competitions)
+
+
+
  
 
 @app.route('/publicClubPoints')

@@ -4,16 +4,16 @@ from .config import client
 
 
 
-def test_show_summary(client):
-    response = client.post('/showSummary', data={'email': 'john@simplylift.co'})
-    assert response.status_code == 200
-    assert b"Welcome" in response.data
 
-def test_purchase_places(client):
-    response = client.post('/purchasePlaces', data={
-        'club': 'ClubTest',
-        'competition': 'CompetitionTest',
-        'places': 5
-    })
+def test_reservation_updates_points_and_availability(client):
+    response = client.post('/purchasePlaces', data={'competition': 'Spring Festival', 'club': 'Iron Temple', 'places': '2'})
     assert response.status_code == 200
-    assert "Super, réservation terminée !".encode('utf-8') in response.data
+    assert 'Great - booking complete!' in response.data.decode('utf-8')
+
+    summary_response = client.post('/showSummary', data={'email': 'admin@irontemple.com'})
+    assert summary_response.status_code == 200
+    assert b'Iron Temple' in summary_response.data
+
+    booking_page_response = client.get('/book/Spring Festival/Iron Temple')
+    assert booking_page_response.status_code == 200
+    assert b'Available Places' in booking_page_response.data

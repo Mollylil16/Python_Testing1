@@ -1,23 +1,38 @@
-import pytest
+import sys
+import os
 from server import app
 from .config import client
 
+# Modification du chemin pour permettre les imports
+sys.path.insert(
+    0,
+    os.path.abspath(
+        os.path.join(os.path.dirname(__file__), '..'),
+    ),
+)
 
+def test_full_booking_flow(client):
+    login_response = client.post('/showSummary', data={'email': 'admin@irontemple.com'})
+    assert login_response.status_code == 200
 
-def test_functional_booking(client):
-    response = client.post('/showSummary', data={'email': 'john@simplylift.co'})
-    assert response.status_code == 200
-    assert b"Welcome" in response.data
+    booking_page_response = client.get('/book/Spring Festival/Iron Temple')
+    assert booking_page_response.status_code == 200
 
-    response = client.post('/purchasePlaces', data={
-        'club': 'ClubTest',
-        'competition': 'CompetitionTest',
-        'places': 5
-    })
-    assert response.status_code == 200
-    assert "Super, réservation terminée !".encode('utf-8') in response.data
+    booking_response = client.post(
+        '/purchasePlaces',
+        data={
+            'competition': 'Spring Festival',
+            'club': 'Iron Temple',
+            'places': '2',
+        },
+    )
+    assert booking_response.status_code == 200
+    assert 'Great - booking complete!' in booking_response.data.decode('utf-8')
 
-    response = client.get('/publicClubPoints')
-    assert response.status_code == 200
-    assert b"ClubTest" in response.data
-    assert b"Points" in response.data
+    summary_response = client.post('/showSummary', data={'email': 'admin@irontemple.com'})
+    assert summary_response.status_code == 200
+    assert b'Iron Temple' in summary_response.data
+
+    booking_page_response_after = client.get('/book/Spring Festival/Iron Temple')
+    assert booking_page_response_after.status_code == 200
+    assert b'Available Places' in booking_page_response_after.data
