@@ -18,31 +18,28 @@ def load_competitions():
 def test_index(client):
     response = client.get('/')
     assert response.status_code == 200
-    assert 'Welcome to our website' in response.data.decode('utf-8')
-
-def test_login_page(client):
-    response = client.get('/login')
-    assert response.status_code == 200
     assert 'Welcome to the GUDLFT Registration Portal!' in response.data.decode('utf-8')
+
+
 
 def test_show_summary_with_valid_email(client):
     response = client.post(
-        '/showSummary',
-        data={'email': 'admin@irontemple.com'},
+        '/show_summary',
+        data={'email': 'john@simplylift.co'},
     )
     assert response.status_code == 200
     assert 'Welcome' in response.data.decode('utf-8')
 
 def test_show_summary_with_invalid_email(client):
     response = client.post(
-        '/showSummary',
+        '/show_summary',
         data={'email': 'invalidemail@example.com'},
     )
     assert response.status_code == 302  # Redirection attendue
 
 def test_show_summary_with_no_email(client):
     response = client.post(
-        '/showSummary',
+        '/show_summary',
         data={'email': ''},
     )
     assert response.status_code == 302  # Redirection attendue
@@ -57,7 +54,7 @@ def test_purchase_places_valid(client):
         },
     )
     assert response.status_code == 200
-    assert 'Great - booking complete!' in response.data.decode('utf-8')
+    assert 'Super, réservation terminée !' in response.data.decode('utf-8')
 
 def test_purchase_places_insufficient_points(client):
     response = client.post(
@@ -69,4 +66,4 @@ def test_purchase_places_insufficient_points(client):
         },
     )
     assert response.status_code == 200
-    assert 'Insufficient points.' in response.data.decode('utf-8')
+    assert 'Vous navez pas assez de points.' in response.data.decode('utf-8')

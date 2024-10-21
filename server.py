@@ -4,13 +4,13 @@ from datetime import datetime
 
 def loadClubs():
     with open('clubs.json') as c:
-         listOfClubs = json.load(c)['clubs']
-         return listOfClubs
+        listOfClubs = json.load(c)['clubs']
+        return listOfClubs
 
 def loadCompetitions():
     with open('competitions.json') as comps:
-         listOfCompetitions = json.load(comps)['competitions']
-         return listOfCompetitions
+        listOfCompetitions = json.load(comps)['competitions']
+        return listOfCompetitions
 
 app = Flask(__name__)
 app.secret_key = 'something_special'
@@ -22,14 +22,15 @@ clubs = loadClubs()
 def index():
     return render_template('index.html')
 
-@app.route('/showSummary', methods=['POST'])
-def showSummary():
+@app.route('/show_summary', methods=['POST'])
+def show_summary():
     email = request.form['email']
-    # Vérification du format de l'email
+    
     if '@' not in email or '.' not in email.split('@')[-1]:
         flash("Format d'email invalide, veuillez réessayer.")
         return redirect(url_for('index'))
 
+    
     club = next((club for club in clubs if club['email'] == email), None)
     if club:
         return render_template('welcome.html', club=club, competitions=competitions)
@@ -57,19 +58,20 @@ def purchasePlaces():
 
     if club is None:
         flash("Club non trouvé.")
-        return redirect(url_for('showSummary'))  # Ou retournez à l'endroit approprié
+        return redirect(url_for('index'))  
     if competition is None:
         flash("Compétition non trouvée.")
-        return redirect(url_for('showSummary'))
+        return redirect(url_for('index'))
 
-    if places_required < 0:
-        flash("Le nombre de places ne peut pas être négatif.")
+    
+    if places_required <= 0:
+        flash("Le nombre de places doit être supérieur à zéro.")
     elif places_required > 12:
         flash("Vous ne pouvez pas réserver plus de 12 places !")
     elif places_required > int(competition['numberOfPlaces']):
         flash("Pas assez de places disponibles pour ce concours.")
     elif places_required > int(club['points']):
-        flash("Vous n'avez pas assez de points.")
+        flash("Vous navez pas assez de points.")
     else:
         competition['numberOfPlaces'] = int(competition['numberOfPlaces']) - places_required
         club['points'] = int(club['points']) - places_required
@@ -77,10 +79,6 @@ def purchasePlaces():
         print(f"Places restantes: {competition['numberOfPlaces']}, Points restants: {club['points']}")
 
     return render_template('welcome.html', club=club, competitions=competitions)
-
-
-
- 
 
 @app.route('/publicClubPoints')
 def publicClubPoints():

@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h2>Welcome, {{club['email']}}</h2>
-    <a href="{{url_for('logout')}}">Logout</a>
+    <h2>Welcome, {{ club['email'] }}</h2>
+    <a href="{{ url_for('logout') }}">Logout</a>
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -20,14 +20,14 @@
     {% endif %}
     {% endwith %}
 
-    <p>Points available: {{club['points']}}</p>
+    <p>Points available: {{ club['points'] }}</p>
     <h3>Competitions:</h3>
     <ul>
         {% for comp in competitions %}
         <li>
-            {{comp['name']}}<br />
-            Date: {{comp['date']}}<br />
-            Number of Places: {{comp['numberOfPlaces']}}
+            {{ comp['name'] }}<br />
+            Date: {{ comp['date'] }}<br />
+            Number of Places: {{ comp['numberOfPlaces']|int }}
             {% if comp['numberOfPlaces']|int > 0 %}
             <a href="{{ url_for('book', competition=comp['name'], club=club['name']) }}">Book Places</a>
             {% endif %}

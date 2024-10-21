@@ -8,12 +8,12 @@
 </head>
 <body>
     <h2>{{ competition['name'] }}</h2>
-    <p>Places available: {{ competition['numberOfPlaces'] }}</p>
+    <p>Places available: {{ competition['numberOfPlaces']|int }}</p>
     <form action="/purchasePlaces" method="post">
         <input type="hidden" name="club" value="{{ club['name'] }}">
         <input type="hidden" name="competition" value="{{ competition['name'] }}">
         <label for="places">How many places?</label>
-        <input type="number" name="places" id="places" min="1" required /> <!-- Attribut min ajouté -->
+        <input type="number" name="places" id="places" min="1" required />
         <button type="submit">Book</button>
     </form>
 </body>
